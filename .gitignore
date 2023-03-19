@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# waf
+.lock-waf_linux_build
+build
+
+# vscode
+.vscode
+
+# python
+__pycache__
