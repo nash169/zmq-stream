@@ -31,7 +31,7 @@ using namespace zmq_stream;
 int main(int, char**)
 {
     Publisher publisher;
-    publisher.configure("localhost", "5511");
+    publisher.configure("0.0.0.0", "5511");
 
     // Eigen::MatrixXd mat = Eigen::MatrixXd::Random(5, 3);
     Eigen::VectorXd vec = Eigen::VectorXd::Random(5);

@@ -101,5 +101,5 @@ def build(bld):
     bld.recurse("./examples")
 
     # Install headers
-    [bld.install_files("${PREFIX}/include/" + os.path.dirname(f)[4:], f)
+    [bld.install_files("${PREFIX}/include/" + os.path.dirname(f), f)
      for f in includes]

@@ -40,3 +40,4 @@ build
 
 # python
 __pycache__
+zmq_stream.egg-info

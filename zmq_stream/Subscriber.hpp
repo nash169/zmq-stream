@@ -63,7 +63,7 @@ namespace zmq_stream {
                 _socket->set(zmq::sockopt::conflate, 1);
                 _socket->set(zmq::sockopt::subscribe, "");
 
-                _socket->bind("tcp://" + host + ":" + port);
+                _socket->connect("tcp://" + host + ":" + port);
 
                 std::cout << "[ZMQ] Subscriber connected" << std::endl;
                 return true;
@@ -80,7 +80,7 @@ namespace zmq_stream {
 
             zmq::message_t message;
 
-            auto request = _socket->recv(message, zmq::recv_flags::none);
+            auto request = _socket->recv(message, zmq::recv_flags::none); // dontwait
             double* data = message.data<typename EigenData::Scalar>();
 
             return Eigen::Map<EigenData>(data, args...);

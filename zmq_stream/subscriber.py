@@ -33,7 +33,7 @@ class Subscriber:
 
     def configure(self, host, port):
         self.socket = self.context.socket(zmq.SUB)
-        self.socket.bind("tcp://" + host + ":" + port)
+        self.socket.connect("tcp://" + host + ":" + port)
         self.socket.setsockopt(zmq.CONFLATE, 1)
         self.socket.setsockopt_string(zmq.SUBSCRIBE, '')
 

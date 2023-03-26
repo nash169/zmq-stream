@@ -31,11 +31,11 @@ using namespace zmq_stream;
 int main(int, char**)
 {
     Subscriber receiver;
-    receiver.configure("0.0.0.0", "5511");
+    receiver.configure("localhost", "5511");
 
     while (true) {
         std::cout << "Receiving:" << std::endl;
         // std::cout << receiver.receive<Eigen::MatrixXd>(5, 3) << std::endl;
-        std::cout << receiver.receive<Eigen::VectorXd>(5) << std::endl;
+        std::cout << receiver.receive<Eigen::VectorXd>(5).transpose() << std::endl;
     }
 }

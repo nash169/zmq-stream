@@ -32,7 +32,7 @@ class Publisher:
 
     def configure(self, host, port):
         self.socket = self.context.socket(zmq.PUB)
-        self.socket.connect("tcp://" + host + ":" + port)
+        self.socket.bind("tcp://" + host + ":" + port)
         self.socket.setsockopt(zmq.SNDHWM, 1)
         self.socket.setsockopt(zmq.CONFLATE, 1)
 

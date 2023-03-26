@@ -28,7 +28,7 @@ import numpy as np
 from zmq_stream.subscriber import Subscriber
 
 sub = Subscriber()
-sub.configure("*", "5511")
+sub.configure("localhost", "5511")
 
 while True:
     print("Receiving:")

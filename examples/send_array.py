@@ -28,7 +28,7 @@ import numpy as np
 from zmq_stream.publisher import Publisher
 
 pub = Publisher()
-pub.configure("localhost", "5511")
+pub.configure("*", "5511")
 
 vec = np.random.rand(5)
 

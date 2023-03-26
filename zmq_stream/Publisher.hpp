@@ -29,8 +29,6 @@
 #include <type_traits>
 #include <zmq.hpp>
 
-#include "zmq_stream/type_name_rt.hpp"
-
 namespace zmq_stream {
     class Publisher {
     public:
@@ -60,7 +58,7 @@ namespace zmq_stream {
             // construct a PUB socket and bind to interface
             if (_context) {
                 _socket = std::make_unique<zmq::socket_t>(*_context, zmq::socket_type::pub);
-                _socket->connect("tcp://" + host + ":" + port);
+                _socket->bind("tcp://" + host + ":" + port);
                 // _socket->setsockopt(ZMQ_SNDHWM, 1);
                 _socket->set(zmq::sockopt::sndhwm, 1);
                 _socket->set(zmq::sockopt::conflate, 1);
