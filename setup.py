@@ -48,11 +48,5 @@ setup(
     install_requires=[
         "numpy",                # math
         "zmq",                  # plotting
-        "torch",                # net framework
     ],
-    extras_require={
-        "pytorch": [
-            "torch",
-        ],
-    },
 )
