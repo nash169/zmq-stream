@@ -23,9 +23,16 @@
 #    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #    SOFTWARE.
 
-from .publisher import Publisher
-from .subscriber import Subscriber
-from .requester import Requester
-from .replier import Replier
+import numpy as np
 
-__all__ = ["Subscriber", "Publisher", "Requester", "Replier"]
+from zmq_stream.replier import Replier
+
+rep = Replier()
+rep.configure("0.0.0.0", "5511")
+
+vec = np.array([4., 5., 6.])
+
+while True:
+    vec_complete = np.append(rep.receive(np.float64, 3), vec)
+    rep.send(vec)
+    print(vec_complete)
