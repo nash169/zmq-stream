@@ -66,32 +66,50 @@ namespace zmq_stream {
             return false;
         }
 
-        template <typename EigenData>
-        void send(const EigenData& data)
-        {
-            if (!_socket || !_socket->handle())
-                return;
-
-            // std::cout << type_name_str<>() << std::endl;
-
-            zmq::message_t message(data.size() * sizeof(typename std::remove_const_t<std::remove_reference_t<decltype(data)>>::Scalar));
-            memcpy(message.data(), data.data(), data.size() * sizeof(typename std::remove_const_t<std::remove_reference_t<decltype(data)>>::Scalar));
-            _socket->send(message, zmq::send_flags::none);
-        }
-
         template <typename EigenData, typename... Args>
-        EigenData receive(Args... args)
+        EigenData request(const EigenData& data, Args... args)
         {
             if (!_socket || !_socket->handle())
                 return EigenData::Zero(args...);
 
-            zmq::message_t message;
+            // send
+            zmq::message_t out_msg(data.size() * sizeof(typename std::remove_const_t<std::remove_reference_t<decltype(data)>>::Scalar));
+            memcpy(out_msg.data(), data.data(), data.size() * sizeof(typename std::remove_const_t<std::remove_reference_t<decltype(data)>>::Scalar));
+            _socket->send(out_msg, zmq::send_flags::none);
 
-            auto request = _socket->recv(message, zmq::recv_flags::none); // dontwait
-            double* data = message.data<typename EigenData::Scalar>();
-
-            return Eigen::Map<EigenData>(data, args...);
+            // receive
+            zmq::message_t in_msg;
+            auto request = _socket->recv(in_msg, zmq::recv_flags::none); // dontwait
+            double* input = in_msg.data<typename EigenData::Scalar>();
+            return Eigen::Map<EigenData>(input, args...);
         }
+
+        // template <typename EigenData>
+        // void send(const EigenData& data)
+        // {
+        //     if (!_socket || !_socket->handle())
+        //         return;
+
+        //     // std::cout << type_name_str<>() << std::endl;
+
+        //     zmq::message_t message(data.size() * sizeof(typename std::remove_const_t<std::remove_reference_t<decltype(data)>>::Scalar));
+        //     memcpy(message.data(), data.data(), data.size() * sizeof(typename std::remove_const_t<std::remove_reference_t<decltype(data)>>::Scalar));
+        //     _socket->send(message, zmq::send_flags::none);
+        // }
+
+        // template <typename EigenData, typename... Args>
+        // EigenData receive(Args... args)
+        // {
+        //     if (!_socket || !_socket->handle())
+        //         return EigenData::Zero(args...);
+
+        //     zmq::message_t message;
+
+        //     auto request = _socket->recv(message, zmq::recv_flags::none); // dontwait
+        //     double* data = message.data<typename EigenData::Scalar>();
+
+        //     return Eigen::Map<EigenData>(data, args...);
+        // }
 
     protected:
         // ZMQ context & socket

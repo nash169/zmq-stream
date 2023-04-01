@@ -30,9 +30,11 @@ from zmq_stream.replier import Replier
 rep = Replier()
 rep.configure("0.0.0.0", "5511")
 
-vec = np.array([4., 5., 6.])
+
+def task(data):
+    vec = np.array([4., 5., 6.])
+    return np.append(data, vec)
+
 
 while True:
-    vec_complete = np.append(rep.receive(np.float64, 3), vec)
-    rep.send(vec)
-    print(vec_complete)
+    rep.reply(task, np.float64, 3)

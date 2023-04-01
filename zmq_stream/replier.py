@@ -13,9 +13,6 @@ class Replier:
         self.socket = self.context.socket(zmq.REP)
         self.socket.bind("tcp://" + host + ":" + port)
 
-    def send(self, data):
-        self.socket.send(data)
-
-    def receive(self, type, *args):
-        data = self.socket.recv()
-        return np.frombuffer(data, dtype=type).reshape(*args)
+    def reply(self, task, type, *args):
+        data = np.frombuffer(self.socket.recv(), dtype=type).reshape(*args)
+        self.socket.send(task(data))

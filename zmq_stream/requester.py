@@ -13,9 +13,6 @@ class Requester:
         self.socket = self.context.socket(zmq.REQ)
         self.socket.connect("tcp://" + host + ":" + port)
 
-    def send(self, data):
+    def request(self, data, type, *args):
         self.socket.send(data)
-
-    def receive(self, type, *args):
-        data = self.socket.recv()
-        return np.frombuffer(data, dtype=type).reshape(*args)
+        return np.frombuffer(self.socket.recv(), dtype=type).reshape(*args)

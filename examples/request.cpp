@@ -36,8 +36,7 @@ int main(int, char**)
     Eigen::Matrix<double, 3, 1> vec(1., 2., 3.);
 
     while (true) {
-        requester.send(vec);
-        auto vec_complete = (Eigen::Matrix<double, 6, 1>() << vec, requester.receive<Eigen::VectorXd>(3)).finished();
+        Eigen::Matrix<double, 6, 1> vec_complete = requester.request<Eigen::VectorXd>(vec, 6);
         std::cout << vec_complete.transpose() << std::endl;
     }
 }
