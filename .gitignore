@@ -41,3 +41,4 @@ build
 # python
 __pycache__
 zmq_stream.egg-info
+.lock-waf_darwin_build
