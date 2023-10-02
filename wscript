@@ -57,6 +57,8 @@ def options(opt):
 
 
 def configure(cfg):
+    cfg.options.zmq_cpp = True
+    
     # Load library configurations
     load(cfg, compiler, required, optional)
 
